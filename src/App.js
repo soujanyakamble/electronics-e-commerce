@@ -1,24 +1,32 @@
-import logo from './logo.svg';
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import { Navbar } from './Components/Navbar/Navbar';
+import { Product } from './Pages/Product';
+import Detail from './Components/Detail';
+import Searchitem from './Components/Searchitem';
+import Carts from './Components/Carts';
+import { items } from './Components/Data';
+import { useState } from 'react';
 
 function App() {
+  const [data, setData]=useState([...items])
+  const [cart, setCart]=useState([])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <>
+    <BrowserRouter>
+       <Navbar cart={cart} setData={setData}/>
+       <Routes>
+        <Route path="/" element={<Product cart={cart} setCart={setCart} items={data}/>}/>
+        <Route path="/product/:id" element={<Detail/>}/>
+        <Route path="/searchpage/:term" element={<Searchitem/>}/>
+        <Route path="/cartpage" element={<Carts cart={cart} setCart={setCart}/>}/>
+       </Routes>
+      </BrowserRouter>
+    </>
+     
+    
   );
 }
 
